@@ -1,66 +1,84 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import { useState, useMemo } from 'react';
+import SearchBar from '@/components/SearchBar';
+import MemeGrid from '@/components/MemeGrid';
+import MemeModal from '@/components/MemeModal';
+import memesData from '@/data/memes.json';
+
+const MEMBERS = ['전체', ...new Set(memesData.map((m) => m.member))];
 
 export default function Home() {
+  const [query, setQuery] = useState('');
+  const [selectedMember, setSelectedMember] = useState('전체');
+  const [selectedMeme, setSelectedMeme] = useState(null);
+  const [toast, setToast] = useState('');
+
+  const filteredMemes = useMemo(() => {
+    let result = memesData;
+
+    if (selectedMember !== '전체') {
+      result = result.filter((m) => m.member === selectedMember);
+    }
+
+    if (query.trim()) {
+      const q = query.trim().toLowerCase();
+      result = result.filter(
+        (m) =>
+          m.title.toLowerCase().includes(q) ||
+          m.description.toLowerCase().includes(q) ||
+          m.member.toLowerCase().includes(q) ||
+          m.tags.some((tag) => tag.toLowerCase().includes(q))
+      );
+    }
+
+    return result;
+  }, [query, selectedMember]);
+
+  const showToast = (message) => {
+    setToast(message);
+    setTimeout(() => setToast(''), 2500);
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
+    <>
+      {/* Hero Section */}
+      <header className="hero">
+        <h1 className="hero-title">무도짤</h1>
+        <p className="hero-subtitle">없는 게 없는 무한도전 짤 찾기 🔥</p>
+        <SearchBar query={query} onQueryChange={setQuery} />
+        <div className="filter-tags">
+          {MEMBERS.map((member) => (
+            <button
+              key={member}
+              className={`filter-tag ${selectedMember === member ? 'active' : ''}`}
+              onClick={() => setSelectedMember(member)}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              {member}
+            </button>
+          ))}
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+        <p className="result-info">
+          <span>{filteredMemes.length}</span>개의 짤을 찾았습니다
+        </p>
+      </header>
+
+      {/* Meme Grid */}
+      <main>
+        <MemeGrid memes={filteredMemes} onMemeClick={setSelectedMeme} />
       </main>
-    </div>
+
+      {/* Modal */}
+      {selectedMeme && (
+        <MemeModal
+          meme={selectedMeme}
+          onClose={() => setSelectedMeme(null)}
+          onToast={showToast}
+        />
+      )}
+
+      {/* Toast */}
+      <div className={`toast ${toast ? 'show' : ''}`}>{toast}</div>
+    </>
   );
 }
