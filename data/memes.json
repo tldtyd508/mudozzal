@@ -4,185 +4,41 @@
     "title": "무야호~",
     "tags": [
       "무야호",
-      "정준하",
-      "스키",
-      "흥분",
-      "신남"
+      "신남",
+      "환호"
     ],
-    "situation": "신나는 일이 생겼을 때, 기쁨을 만끽할 때, 환호하고 싶을 때, 짜릿한 순간",
-    "episode": "305회",
-    "description": "정준하가 스키 타면서 무야호를 외치는 장면",
-    "imageUrl": "/memes/muyaho.svg",
-    "member": "정준하"
-  },
-  {
-    "id": "2",
-    "title": "형... 나 지금 웃긴거야?",
-    "tags": [
-      "박명수",
-      "웃김",
-      "진지",
-      "질문"
-    ],
-    "situation": "본인이 웃긴 상황인지 진지하게 확인하고 싶을 때, 어이없을 때, 진지한 질문을 할 때",
-    "episode": "다수",
-    "description": "박명수가 진지하게 되묻는 클래식 장면",
-    "imageUrl": "/memes/myungsoo-funny.svg",
-    "member": "박명수"
+    "situation": "너무 신나고 좋을 때, 환호할 때",
+    "episode": "알수없음",
+    "description": "무한도전 무야호 짤 검색 결과 중 첫 번째 짤",
+    "imageUrl": "/memes/muyaho.jpg",
+    "member": "일반인"
   },
   {
     "id": "3",
-    "title": "미쳤어 미쳤어",
-    "tags": [
-      "유재석",
-      "미쳤어",
-      "놀람",
-      "충격"
-    ],
-    "situation": "충격적인 소식을 들었을 때, 말도 안 되는 상황을 목격했을 때, 믿기 어려운 일이 생겼을 때",
-    "episode": "다수",
-    "description": "유재석이 놀라서 미쳤어를 연발하는 장면",
-    "imageUrl": "/memes/crazy.svg",
-    "member": "유재석"
-  },
-  {
-    "id": "4",
-    "title": "그건 니 생각이고",
+    "title": "형... 나 웃긴거야?",
     "tags": [
       "정형돈",
-      "반박",
-      "쿨",
-      "논리"
+      "불안",
+      "눈치"
     ],
-    "situation": "상대방의 의견에 시원하게 반박할 때, 쿨하게 무시할 때, 딴소리하는 사람에게",
-    "episode": "다수",
-    "description": "정형돈의 시원한 반박 한마디",
-    "imageUrl": "/memes/your-thought.svg",
+    "situation": "자신의 드립이 망했는지 확신이 안 설 때",
+    "episode": "알수없음",
+    "description": "무한도전 정형돈 형 나 웃긴거야 짤 검색 결과 중 첫 번째 짤",
+    "imageUrl": "/memes/am_i_funny.jpg",
     "member": "정형돈"
   },
   {
     "id": "5",
-    "title": "데프콘 눈물",
-    "tags": [
-      "데프콘",
-      "눈물",
-      "감동",
-      "슬픔",
-      "울음"
-    ],
-    "situation": "감동받았을 때, 슬픈 이야기를 들었을 때, 눈물이 나올 때, 억울할 때",
-    "episode": "다수",
-    "description": "데프콘이 울먹이는 감동 장면",
-    "imageUrl": "/memes/defconn-tears.svg",
-    "member": "데프콘"
-  },
-  {
-    "id": "6",
-    "title": "하하 깔깔",
-    "tags": [
-      "하하",
-      "웃음",
-      "깔깔",
-      "폭소"
-    ],
-    "situation": "너무 웃길 때, 빵 터졌을 때, 참을 수 없는 웃음, 바닥 치며 웃고 싶을 때",
-    "episode": "다수",
-    "description": "하하가 바닥을 치며 웃는 장면",
-    "imageUrl": "/memes/haha-laugh.svg",
-    "member": "하하"
-  },
-  {
-    "id": "7",
-    "title": "노홍철 셀프카메라",
-    "tags": [
-      "노홍철",
-      "셀카",
-      "셀프카메라",
-      "리액션"
-    ],
-    "situation": "셀카 찍을 때, 자기 얼굴에 자신있을 때, 과한 리액션을 할 때, 관종 모먼트",
-    "episode": "다수",
-    "description": "노홍철이 카메라에 얼굴을 들이미는 장면",
-    "imageUrl": "/memes/hongchul-selfie.svg",
-    "member": "노홍철"
-  },
-  {
-    "id": "8",
-    "title": "길 한숨",
-    "tags": [
-      "길",
-      "한숨",
-      "지침",
-      "피곤",
-      "현실"
-    ],
-    "situation": "지칠 때, 현실에 지쳤을 때, 한숨이 나올 때, 퇴근하고 싶을 때, 월요일 아침",
-    "episode": "다수",
-    "description": "길이 깊은 한숨을 내쉬는 장면",
-    "imageUrl": "/memes/gil-sigh.svg",
-    "member": "길"
-  },
-  {
-    "id": "9",
-    "title": "유재석 메뚜기",
+    "title": "기가 막히고 코가 막힌다",
     "tags": [
       "유재석",
-      "메뚜기",
-      "변신",
-      "코스프레"
+      "황당",
+      "어이없음"
     ],
-    "situation": "변신했을 때, 코스프레할 때, 상징적인 모먼트, 유재석 하면 떠오르는 장면",
-    "episode": "다수",
-    "description": "유재석의 상징적인 메뚜기 변신",
-    "imageUrl": "/memes/grasshopper.svg",
+    "situation": "너무 황당하고 어이가 없을 때",
+    "episode": "알수없음",
+    "description": "무한도전 유재석 기가 막히고 코가 막힌다 짤 검색 결과 중 첫 번째 짤",
+    "imageUrl": "/memes/speechless.jpg",
     "member": "유재석"
-  },
-  {
-    "id": "10",
-    "title": "박명수 사자후",
-    "tags": [
-      "박명수",
-      "화남",
-      "분노",
-      "사자후",
-      "고함"
-    ],
-    "situation": "화날 때, 분노를 참을 수 없을 때, 억울할 때, 짜증날 때, 뚜껑 열릴 때",
-    "episode": "다수",
-    "description": "박명수가 화나서 고함을 지르는 장면",
-    "imageUrl": "/memes/myungsoo-roar.svg",
-    "member": "박명수"
-  },
-  {
-    "id": "11",
-    "title": "정준하 먹방",
-    "tags": [
-      "정준하",
-      "먹방",
-      "음식",
-      "맛있다",
-      "폭식"
-    ],
-    "situation": "배고플 때, 맛있는 음식을 봤을 때, 먹방할 때, 폭식하고 싶을 때",
-    "episode": "다수",
-    "description": "정준하의 전설적인 먹방 장면",
-    "imageUrl": "/memes/junha-eating.svg",
-    "member": "정준하"
-  },
-  {
-    "id": "12",
-    "title": "하하 댄스",
-    "tags": [
-      "하하",
-      "댄스",
-      "춤",
-      "흥",
-      "신남"
-    ],
-    "situation": "흥이 넘칠 때, 춤추고 싶을 때, 금요일 저녁, 축하할 일이 생겼을 때",
-    "episode": "다수",
-    "description": "하하가 즉흥 댄스를 추는 장면",
-    "imageUrl": "/memes/haha-dance.svg",
-    "member": "하하"
   }
 ]

@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback } from 'react';
 import SearchBar from '@/components/SearchBar';
 import MemeGrid from '@/components/MemeGrid';
 import MemeModal from '@/components/MemeModal';
+import RequestModal from '@/components/RequestModal'; // NEW
 import useStats from '@/hooks/useStats';
 import memesData from '@/data/memes.json';
 
@@ -14,6 +15,7 @@ export default function Home() {
   const [selectedMember, setSelectedMember] = useState('전체');
   const [selectedMeme, setSelectedMeme] = useState(null);
   const [toast, setToast] = useState('');
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false); // NEW
 
   // AI search state
   const [aiMode, setAiMode] = useState(false);
@@ -85,6 +87,34 @@ export default function Home() {
     setAiError('');
   };
 
+  // Modal handlers
+  const openModal = useCallback((meme) => {
+    setSelectedMeme(meme);
+    incrementView(meme.id);
+  }, [incrementView]);
+
+  const closeModal = useCallback(() => {
+    setSelectedMeme(null);
+  }, []);
+
+  const handleCopyLink = useCallback((meme) => {
+    const url = `${window.location.origin}/meme/${meme.id}`;
+    navigator.clipboard.writeText(url);
+    showToast('링크가 복사되었습니다!');
+    incrementUsage(meme.id);
+  }, [incrementUsage]);
+
+  const handleDownload = useCallback((meme) => {
+    const link = document.createElement('a');
+    link.href = meme.image;
+    link.download = `${meme.title}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast('짤이 다운로드되었습니다!');
+    incrementUsage(meme.id);
+  }, [incrementUsage]);
+
   const displayMemes = filteredMemes;
 
   return (
@@ -101,12 +131,20 @@ export default function Home() {
           onAiSearch={handleAiSearch}
           isLoading={aiLoading}
         />
+        {aiError && (
+          <p className="result-info error-info">⚠️ {aiError}</p>
+        )}
+      </header>
+
+      {/* Meme Grid */}
+      <main className="container">
+        {/* Member Filters */}
         {!aiMode && (
-          <div className="filter-tags">
+          <div className="filters">
             {MEMBERS.map((member) => (
               <button
                 key={member}
-                className={`filter-tag ${selectedMember === member ? 'active' : ''}`}
+                className={`filter-btn ${selectedMember === member ? 'active' : ''}`}
                 onClick={() => setSelectedMember(member)}
               >
                 {member}
@@ -114,46 +152,68 @@ export default function Home() {
             ))}
           </div>
         )}
-        {aiMode && aiResults && (
-          <p className="result-info ai-result-info">
-            ✨ AI가 <span>{aiResults.length}</span>개의 짤을 추천합니다
-          </p>
-        )}
-        {aiError && (
-          <p className="result-info error-info">⚠️ {aiError}</p>
-        )}
-        {!aiMode && (
-          <p className="result-info">
-            <span>{displayMemes.length}</span>개의 짤을 찾았습니다
-          </p>
-        )}
-      </header>
 
-      {/* Meme Grid */}
-      <main>
-        <MemeGrid
-          memes={displayMemes}
-          onMemeClick={setSelectedMeme}
-          getStats={getStats}
-          aiMode={aiMode}
-        />
+        {/* Results Info */}
+        <div className="results-info">
+          <p>
+            {aiMode && aiResults ? '✨ AI 추천 결과' : `'${selectedMember}' 검색 결과`}
+            <span className="count"> ({displayMemes.length}개)</span>
+          </p>
+        </div>
+
+        {/* Meme Grid */}
+        {displayMemes.length > 0 ? (
+          <MemeGrid
+            memes={displayMemes}
+            onMemeClick={openModal}
+            getStats={getStats}
+            toggleHeart={toggleHeart}
+            aiMode={aiMode}
+          />
+        ) : (
+          <div className="empty-state">
+            <p>"{query}" 검색 결과가 없습니다. 😢</p>
+            {!aiMode && <p className="hint">다른 키워드나 AI 검색을 시도해 보세요.</p>}
+            <div className="empty-state-cta">
+              <button className="btn-primary" onClick={() => setIsRequestModalOpen(true)}>
+                없는 짤 추가 요청하기 📮
+              </button>
+            </div>
+          </div>
+        )}
       </main>
 
-      {/* Modal */}
-      {selectedMeme && (
-        <MemeModal
-          meme={selectedMeme}
-          onClose={() => setSelectedMeme(null)}
-          onToast={showToast}
-          stats={getStats(selectedMeme.id)}
-          onIncrementView={incrementView}
-          onToggleHeart={toggleHeart}
-          onIncrementUsage={incrementUsage}
-        />
-      )}
+      {/* Meme Detail Modal */}
+      <MemeModal
+        meme={selectedMeme}
+        isOpen={!!selectedMeme}
+        onClose={closeModal}
+        stats={selectedMeme ? getStats(selectedMeme.id) : {}}
+        onCopyLink={handleCopyLink}
+        onDownload={handleDownload}
+        onToggleHeart={() => toggleHeart(selectedMeme.id)}
+      />
 
-      {/* Toast */}
-      <div className={`toast ${toast ? 'show' : ''}`}>{toast}</div>
+      {/* Request Meme Modal */}
+      <RequestModal
+        isOpen={isRequestModalOpen}
+        onClose={(success) => {
+          setIsRequestModalOpen(false);
+          if (success === true) {
+            showToast('✅ 제보가 접수되었습니다! 요원들이 금방 추가할게요.');
+          }
+        }}
+      />
+
+      {/* Floating Action Button */}
+      <button className="fab" onClick={() => setIsRequestModalOpen(true)} title="짤 추가 제보하기">
+        + 제보하기
+      </button>
+
+      {/* Toast Notification */}
+      <div className={`toast ${toast ? 'show' : ''}`}>
+        {toast}
+      </div>
     </>
   );
 }

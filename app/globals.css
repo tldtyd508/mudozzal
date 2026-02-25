@@ -734,4 +734,125 @@ body {
   .meme-card-footer {
     flex-direction: column;
   }
+
+  /* ===== REQUEST MUDOZZAL ===== */
+  .fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background-color: var(--mbc-blue);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all var(--transition);
+    z-index: 90;
+  }
+
+  .fab:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    background-color: #316ebf;
+  }
+
+  .request-modal-content {
+    max-width: 500px;
+    padding: 32px;
+  }
+
+  .request-modal-header {
+    margin-bottom: 24px;
+  }
+
+  .request-modal-header h2 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+
+  .request-modal-header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  .request-form .form-group {
+    margin-bottom: 20px;
+  }
+
+  .request-form label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+
+  .request-form textarea,
+  .request-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color var(--transition);
+  }
+
+  .request-form textarea:focus,
+  .request-form input:focus {
+    outline: none;
+    border-color: var(--mbc-blue);
+  }
+
+  .request-form .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .btn-secondary {
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-primary);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--surface-bg);
+  }
+
+  .btn-primary {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--mbc-blue);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: #316ebf;
+  }
+
+  .btn-primary:disabled {
+    background-color: #3a4b61;
+    color: #8b9eb5;
+    cursor: not-allowed;
+  }
+
+  .empty-state-cta {
+    margin-top: 24px;
+  }
 }
