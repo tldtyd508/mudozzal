@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback } from 'react';
 
-export default function MemeModal({ meme, onClose, onToast }) {
+export default function MemeModal({ meme, onClose, onToast, stats, onIncrementView, onToggleHeart, onIncrementUsage }) {
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'Escape') onClose();
     }, [onClose]);
@@ -10,13 +10,16 @@ export default function MemeModal({ meme, onClose, onToast }) {
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
         document.body.style.overflow = 'hidden';
+        if (onIncrementView) onIncrementView(meme.id);
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
             document.body.style.overflow = '';
         };
-    }, [handleKeyDown]);
+    }, [handleKeyDown, meme.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
     if (!meme) return null;
+
+    const currentStats = stats || { views: 0, hearts: 0, hearted: false, usage: 0 };
 
     const handleDownload = async () => {
         try {
@@ -30,6 +33,7 @@ export default function MemeModal({ meme, onClose, onToast }) {
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+            if (onIncrementUsage) onIncrementUsage(meme.id);
             onToast('다운로드 완료! 📥');
         } catch {
             onToast('다운로드에 실패했습니다 😢');
@@ -39,10 +43,15 @@ export default function MemeModal({ meme, onClose, onToast }) {
     const handleCopyLink = () => {
         const url = `${window.location.origin}?meme=${meme.id}`;
         navigator.clipboard.writeText(url).then(() => {
+            if (onIncrementUsage) onIncrementUsage(meme.id);
             onToast('링크가 복사되었습니다! 🔗');
         }).catch(() => {
             onToast('복사에 실패했습니다 😢');
         });
+    };
+
+    const handleHeart = () => {
+        if (onToggleHeart) onToggleHeart(meme.id);
     };
 
     return (
@@ -60,11 +69,29 @@ export default function MemeModal({ meme, onClose, onToast }) {
                     />
                 </div>
                 <div className="modal-body">
-                    <h2 className="modal-title">{meme.title}</h2>
+                    <div className="modal-header-row">
+                        <h2 className="modal-title">{meme.title}</h2>
+                        <button
+                            className={`heart-btn ${currentStats.hearted ? 'hearted' : ''}`}
+                            onClick={handleHeart}
+                            aria-label="좋아요"
+                        >
+                            {currentStats.hearted ? '❤️' : '🤍'} {currentStats.hearts}
+                        </button>
+                    </div>
                     <p className="modal-description">{meme.description}</p>
+                    {meme.reason && (
+                        <div className="modal-ai-reason">
+                            <span>✨ AI 추천 이유:</span> {meme.reason}
+                        </div>
+                    )}
                     <div className="modal-info-row">
                         <span className="modal-member-badge">{meme.member}</span>
                         <span className="modal-episode">📺 {meme.episode}</span>
+                    </div>
+                    <div className="modal-stats-row">
+                        <span className="modal-stat">👀 조회 {currentStats.views}</span>
+                        <span className="modal-stat">📥 사용 {currentStats.usage}</span>
                     </div>
                     <div className="modal-tags">
                         {meme.tags.map((tag) => (

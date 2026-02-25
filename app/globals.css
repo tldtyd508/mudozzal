@@ -57,7 +57,7 @@ body {
   width: 200%;
   height: 200%;
   background: radial-gradient(circle at 50% 80%, rgba(230, 57, 70, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.06) 0%, transparent 40%);
+    radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.06) 0%, transparent 40%);
   pointer-events: none;
 }
 
@@ -89,7 +89,7 @@ body {
 
 .search-input {
   width: 100%;
-  padding: 16px 20px 16px 52px;
+  padding: 16px 90px 16px 52px;
   font-size: 1rem;
   font-family: inherit;
   border: 1.5px solid var(--border-color);
@@ -109,6 +109,15 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.15);
 }
 
+.search-input.ai-active {
+  border-color: rgba(168, 85, 247, 0.5);
+}
+
+.search-input.ai-active:focus {
+  border-color: rgba(168, 85, 247, 0.8);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+}
+
 .search-icon {
   position: absolute;
   left: 20px;
@@ -120,8 +129,59 @@ body {
   transition: color var(--transition);
 }
 
-.search-input:focus ~ .search-icon {
+.search-input:focus~.search-icon {
   color: var(--accent-yellow);
+}
+
+/* ===== AI TOGGLE ===== */
+.ai-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 8px 14px;
+  border: none;
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  transition: all var(--transition);
+}
+
+.ai-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.ai-toggle.active {
+  background: linear-gradient(135deg, #a855f7, #6366f1);
+  color: white;
+}
+
+/* ===== SEARCH LOADING ===== */
+.search-loading {
+  position: absolute;
+  right: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--accent-yellow);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ===== MEMBER FILTER TAGS ===== */
@@ -174,6 +234,14 @@ body {
   font-weight: 700;
 }
 
+.ai-result-info span {
+  color: #a855f7;
+}
+
+.error-info {
+  color: var(--accent-red);
+}
+
 /* ===== MEME GRID ===== */
 .meme-grid {
   display: grid;
@@ -191,12 +259,36 @@ body {
   border: 1px solid var(--border-color);
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  position: relative;
 }
 
 .meme-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-card);
   border-color: rgba(255, 215, 0, 0.2);
+}
+
+.meme-card.ai-recommended {
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.meme-card.ai-recommended:hover {
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.15);
+}
+
+/* ===== AI REASON BADGE ===== */
+.ai-reason-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  background: linear-gradient(135deg, #a855f7, #6366f1);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 700;
 }
 
 .meme-card-image {
@@ -229,6 +321,13 @@ body {
   color: var(--text-primary);
 }
 
+.meme-card-reason {
+  font-size: 0.8rem;
+  color: #a855f7;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
 .meme-card-meta {
   display: flex;
   align-items: center;
@@ -246,11 +345,18 @@ body {
   font-size: 0.75rem;
 }
 
+.meme-card-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
 .meme-card-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  margin-top: 8px;
 }
 
 .meme-card-tag {
@@ -259,6 +365,18 @@ body {
   background: rgba(255, 255, 255, 0.04);
   padding: 2px 8px;
   border-radius: 50px;
+}
+
+.meme-card-stats {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.stat-badge {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 /* ===== EMPTY STATE ===== */
@@ -292,8 +410,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content {
@@ -305,6 +428,8 @@ body {
   box-shadow: var(--shadow-modal);
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid var(--border-color);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 @keyframes slideUp {
@@ -312,6 +437,7 @@ body {
     opacity: 0;
     transform: translateY(30px) scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -337,10 +463,17 @@ body {
   padding: 24px;
 }
 
+.modal-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
 .modal-title {
   font-size: 1.4rem;
   font-weight: 900;
-  margin-bottom: 4px;
 }
 
 .modal-description {
@@ -350,11 +483,81 @@ body {
   line-height: 1.5;
 }
 
+/* ===== HEART BUTTON ===== */
+.heart-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-family: inherit;
+  transition: all var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.heart-btn:hover {
+  border-color: var(--accent-red);
+  background: rgba(230, 57, 70, 0.1);
+}
+
+.heart-btn.hearted {
+  border-color: var(--accent-red);
+  background: rgba(230, 57, 70, 0.1);
+  color: var(--accent-red);
+  animation: heartPop 0.3s ease;
+}
+
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ===== MODAL AI REASON ===== */
+.modal-ai-reason {
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.modal-ai-reason span {
+  color: #a855f7;
+  font-weight: 700;
+}
+
+/* ===== MODAL STATS ===== */
+.modal-stats-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.modal-stat {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
 .modal-info-row {
   display: flex;
   gap: 12px;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .modal-member-badge {
@@ -513,13 +716,22 @@ body {
   }
 
   .search-input {
-    padding: 14px 16px 14px 44px;
+    padding: 14px 80px 14px 44px;
     font-size: 0.9rem;
+  }
+
+  .ai-toggle {
+    padding: 6px 10px;
+    font-size: 0.75rem;
   }
 
   .meme-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     padding: 12px;
+  }
+
+  .meme-card-footer {
+    flex-direction: column;
   }
 }
